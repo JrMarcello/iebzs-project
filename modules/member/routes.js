@@ -1,3 +1,5 @@
+'user strict'
+
 import express from 'express';
 
 import controller from './controller';

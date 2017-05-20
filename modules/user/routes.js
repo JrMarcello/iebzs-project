@@ -2,16 +2,19 @@
 
 import express from 'express';
 
-import * as controller from './controller';
+import controller from './controller';
 
 const API_USER_BASE_PAH = '/user';
 
 const router = express.Router();
 
-router.post('/user', controller.create);
-router.get('/user', controller.getAll);
-router.put('/user/:id', controller.update);
-router.delete('/user/:id', controller.delete);
-router.get('/user/:id', controller.get);
+router.route(API_USER_BASE_PAH)
+    .post(controller.create)    
+    .get(controller.getAll);
+
+router.route(API_USER_BASE_PAH + '/:id')
+    .get(controller.get)
+    .put(controller.update)    
+    .delete(controller.delete);
 
 export default router;
