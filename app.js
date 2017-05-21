@@ -4,7 +4,7 @@ import express    from 'express';
 import bodyParser from 'body-parser';
 import morgan     from 'morgan';
 
-import serverConfig from './config/server-configs';
+import config       from './config/configs';
 import dbConfig     from './config/db-configs';
 import * as routers from './routes';
 
@@ -44,8 +44,8 @@ function configureLogers() {
 
 function setRoutes() {
     app.use(routers.Router);
-    app.use(serverConfig.API_BASE_PATH, routers.memberRoutes);
-    app.use(serverConfig.API_BASE_PATH, routers.userRoutes);
+    app.use(config.api.API_BASE_PATH, routers.memberRoutes);
+    app.use(config.api.API_BASE_PATH, routers.userRoutes);
 }
 
 function configureBD() {
@@ -53,7 +53,7 @@ function configureBD() {
 };
 
 function run() {    
-    app.listen(serverConfig.PORT, function() {
-        console.log('Server run in: ' + serverConfig.PORT);
+    app.listen(config.server.PORT, function() {
+        console.log('Server run in: ' + config.server.PORT);
     })
 };
