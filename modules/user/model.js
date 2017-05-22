@@ -1,23 +1,21 @@
 'use strict'
 
-import Schema from './schema';
+import User from './schema';
 
-module.exports.create = (data, callback) => {        
-    new Schema(data).save(callback);
-};
-
-module.exports.update = (id, data, callback) => {    
-    Schema.findByIdAndUpdate({ _id: id }, data, callback);   
-};
-
-module.exports.delete = (id, callback) => {   
-    Schema.findByIdAndRemove({ _id: id }, callback);    
-};
-
-module.exports.get = (id, callback) => {
-    Schema.findOne({ _id: id }, callback);    
-};
-
-module.exports.getAll = (callback) => {
-    Schema.find(callback);
-};
+export default {
+    create: (data, callback) => {        
+        new User(data).save(callback);
+    },
+    update: (id, data, callback) => {    
+        User.findByIdAndUpdate({ _id: id }, data, callback);   
+    },
+    delete: (id, callback) => {   
+        User.findByIdAndRemove({ _id: id }, callback);    
+    },
+    get: (id, callback) => {
+        User.findOne({ _id: id }, callback);    
+    },
+    getAll: (callback) => {
+        User.find(callback);
+    }
+}

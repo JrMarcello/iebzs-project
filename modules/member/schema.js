@@ -30,4 +30,4 @@ const MemberSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Member', MemberSchema);
+export default mongoose.model('Member', MemberSchema);
