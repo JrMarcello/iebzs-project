@@ -10,15 +10,13 @@ import * as routers from './routes';
 
 const app = express();
 
-(function init () {
-    configureApp();
-    run();
-})();
+configureApp();
 
 function configureApp () {
     configureCORS();
-    configureParsers();        
+    configureParsers();
     configureLogers();
+    //configureAuth();
     setRoutes();
     configureBD();
 };
@@ -41,6 +39,10 @@ function configureParsers() {
 function configureLogers() {
     app.use(morgan('dev'));
 };
+
+function configureAuth() {
+    app.use(passport.initialize());
+}
 
 function setRoutes() {
     app.use(routers.Router);
