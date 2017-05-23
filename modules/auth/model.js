@@ -3,10 +3,19 @@
 //import user from './schema';
 
 export default {
-    login: (data, callback) => {
-        console.log('Login' + data);
-    },
-    authenticate: (data, callback) => {
-        return passport.authenticate('jwt', { session: false });
-    }
+    login: (data, callback) => {        
+        if ( ! validate(data)) { return callback(new Error('Invalid email or password'), null) }
+
+        return auth(data, callback);
+    }    
+}
+
+function validate(data) {
+    if ( ! data.hasOwnProperty('email') || ! data.hasOwnProperty('password')) { return false }
+
+    return true;
+}
+
+function auth(data, callback) {
+    //...
 }

@@ -4,7 +4,7 @@ import express from 'express';
 
 import controller from './controller';
 
-const API_AUTH_BASE_PAH = '/login';
+const API_AUTH_BASE_PAH = '/auth';
 
 export default () => {
     let router = express.Router();
