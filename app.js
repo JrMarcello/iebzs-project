@@ -3,6 +3,7 @@
 import express    from 'express';
 import bodyParser from 'body-parser';
 import morgan     from 'morgan';
+import passport   from 'passport';
 
 import config       from './config/configs';
 import dbConfig     from './config/db-configs';
@@ -10,16 +11,13 @@ import * as routers from './routes';
 
 const app = express();
 
-configureApp();
-
-function configureApp () {
-    configureCORS();
-    configureParsers();
-    configureLogers();
-    //configureAuth();
-    setRoutes();
-    configureBD();
-};
+configureCORS();
+configureParsers();
+configureLogers();
+//configureAuth();
+setRoutes();
+configureBD();
+run();
 
 function configureCORS() {
     app.use((req, res, next) => {
@@ -40,12 +38,13 @@ function configureLogers() {
     app.use(morgan('dev'));
 };
 
-function configureAuth() {
-    app.use(passport.initialize());
-}
+// function configureAuth() {
+//     app.use(auth.initialize());
+// }
 
 function setRoutes() {
     app.use(routers.Router);
+    app.use(config.api.API_BASE_PATH, routers.authRoutes);
     app.use(config.api.API_BASE_PATH, routers.memberRoutes);
     app.use(config.api.API_BASE_PATH, routers.userRoutes);
 }
