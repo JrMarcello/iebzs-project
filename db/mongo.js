@@ -2,12 +2,7 @@
 
 import mongoose from 'mongoose';
 
-const config = {    
-    DB_HOST: process.env.DB_HOST || 'mongodb://127.0.0.1/',
-    DB_NAME: process.env.DB_NAME || 'BD-T01'
-};
-
-module.exports.initDatabase = function() {
+export default function(config) {
     mongoose.Promise = global.Promise;
 
     mongoose.connect(config.DB_HOST + config.DB_NAME);

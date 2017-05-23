@@ -6,9 +6,11 @@ import controller from './controller';
 
 const API_AUTH_BASE_PAH = '/login';
 
-const router = express.Router();
+export default () => {
+    let router = express.Router();
 
-router.route(API_AUTH_BASE_PAH)
-    .post(controller.login);
+    router.route(API_AUTH_BASE_PAH)
+          .post(controller.login);
 
-export default router;
+    return router;
+};

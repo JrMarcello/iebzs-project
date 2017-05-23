@@ -3,20 +3,18 @@
 import express    from 'express';
 import bodyParser from 'body-parser';
 import morgan     from 'morgan';
-import passport   from 'passport';
 
-import config       from './config/configs';
-import dbConfig     from './config/db-configs';
-import * as routers from './routes';
+import configs from './config/configs';
+import db      from './db/mongo';
+import routers from './routes';
 
 const app = express();
 
 configureCORS();
 configureParsers();
 configureLogers();
-//configureAuth();
 setRoutes();
-configureBD();
+connectBD();
 run();
 
 function configureCORS() {
@@ -38,23 +36,16 @@ function configureLogers() {
     app.use(morgan('dev'));
 };
 
-// function configureAuth() {
-//     app.use(auth.initialize());
-// }
-
-function setRoutes() {
-    app.use(routers.Router);
-    app.use(config.api.API_BASE_PATH, routers.authRoutes);
-    app.use(config.api.API_BASE_PATH, routers.memberRoutes);
-    app.use(config.api.API_BASE_PATH, routers.userRoutes);
+function setRoutes() {    
+    app.use(configs.api.API_BASE_PATH, routers());
 }
 
-function configureBD() {
-    dbConfig.initDatabase();
+function connectBD() {
+    db(configs.db);    
 };
 
 function run() {    
-    app.listen(config.server.PORT, function() {
-        console.log('Server run in: ' + config.server.PORT);
+    app.listen(configs.server.PORT, function() {
+        console.log('Server run in: ' + configs.server.PORT);
     })
 };
