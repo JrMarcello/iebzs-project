@@ -6,17 +6,15 @@ import controller     from './controller';
 
 const API_USER_BASE_PAH = '/user';
 
-export default () => {
+export default (auth) => {
     let router = express.Router();
 
-    router.route(API_USER_BASE_PAH)
-        .post(controller.create)
-        .get(controller.getAll);
-
-    router.route(API_USER_BASE_PAH + '/:id')
-        .get(controller.get)
-        .put(controller.update)
-        .delete(controller.delete);
+    router.post(API_USER_BASE_PAH, auth.authenticate(), controller.create)
+    router.get(API_USER_BASE_PAH, auth.authenticate(), controller.getAll);
+    
+    router.get(API_USER_BASE_PAH + '/:id', auth.authenticate(), controller.get)
+    router.put(API_USER_BASE_PAH + '/:id', auth.authenticate(), controller.update)
+    router.delete(API_USER_BASE_PAH + '/:id', auth.authenticate(), controller.delete);
 
     return router;
 };

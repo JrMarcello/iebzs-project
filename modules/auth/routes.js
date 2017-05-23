@@ -9,8 +9,7 @@ const API_AUTH_BASE_PAH = '/login';
 export default () => {
     let router = express.Router();
 
-    router.route(API_AUTH_BASE_PAH)
-          .post(controller.login);
+    router.post(API_AUTH_BASE_PAH, controller.login);
 
     return router;
 };
