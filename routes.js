@@ -1,10 +1,10 @@
 import express  from 'express';
 import path     from 'path';
 
-import auth         from './modules/auth/auth';
+import * as auth    from './modules/auth/auth';
 import authRoutes   from './modules/auth/routes';
-import memberRoutes from './modules/member/routes';
 import userRoutes   from './modules/user/routes';
+import memberRoutes from './modules/member/routes';
 
 export default () => {
     let router = express.Router();
@@ -17,9 +17,9 @@ export default () => {
         res.sendFile(path.join(__dirname + '/index.html'))
     });
 
-    router.use(authRoutes(auth));
-    router.use(memberRoutes(auth));
+    router.use(authRoutes());
     router.use(userRoutes(auth));
+    router.use(memberRoutes(auth));    
 
     return router;
 };

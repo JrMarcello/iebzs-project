@@ -16,9 +16,7 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
-        //required: true,
-        default: bcrypt.hashSync('1a2b3c'),
-        select: false
+        default: bcrypt.hashSync('1a2b3c')
     },
     avatar: {
         type: Schema.Types.Object,

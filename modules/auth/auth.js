@@ -14,27 +14,38 @@ let params = {
     jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeader()
 };
 
-passport.use(new passportJWT.Strategy(params, (payload, done) => {
+passport.use(new passportJWT.Strategy(params, (payload, done) => {    
     User.findOne({ _id: payload.id }, (err, user) => {
         if (err) { return done(err) }
 
         if ( ! user) { return done(null, false) }
 
-        return callback(null, user);            
+        return done(null, user);            
     });
 }));
 
 passport.initialize();
-
+    
 export default passport;
 
-export let getToken = (user, callback) => {
+/**
+ * Create a token
+ * 
+ * @param {*} user 
+ * @param {*} callback 
+ */
+export const getToken = (user, callback) => {
     try {
         let params = { id: user._id };
         let options = { algorithm: 'HS256', expiresIn: '1d' };        
 
-        return callback(null, jwt.sign(params, secret, options));
+        return callback(null, { token: jwt.sign(params, secret, options) });
     } catch (err) {
         return callback(err);
     }
+};
+
+export const isAuthorized = () => {
+    //console.log(passport)
+    return passport.authenticate('jwt', configs.auth.jwtSession);
 };
