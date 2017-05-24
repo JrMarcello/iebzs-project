@@ -24,7 +24,6 @@ function configureCORS() {
         res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
         next();
     });
-    
 };
 
 function configureParsers() {
@@ -36,15 +35,15 @@ function configureLogers() {
     app.use(morgan('dev'));
 };
 
-function setRoutes() {    
+function setRoutes() {
     app.use(configs.api.API_BASE_PATH, routers());
 }
 
 function connectBD() {
-    db(configs.db);    
+    db(configs.db);
 };
 
-function run() {    
+function run() {
     app.listen(configs.server.PORT, function() {
         console.log('Server run in: ' + configs.server.PORT);
     })

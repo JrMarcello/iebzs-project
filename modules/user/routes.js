@@ -11,7 +11,7 @@ export default (auth) => {
 
     router.post(API_USER_BASE_PAH, auth.isAuthorized(), controller.create);
     router.get(API_USER_BASE_PAH, auth.isAuthorized(), controller.getAll);
-    
+
     router.get(API_USER_BASE_PAH + '/:id', auth.isAuthorized(), controller.get);
     router.put(API_USER_BASE_PAH + '/:id', auth.isAuthorized(), controller.update);
     router.delete(API_USER_BASE_PAH + '/:id', auth.isAuthorized(), controller.delete);

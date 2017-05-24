@@ -11,9 +11,9 @@ export const errorHandler = (error) => {
 
     if (error.errors) {
         let errorMessages = {};
-        
+
         for (let key in error.errors) {
-            errorMessages[key] = error.errors[key].message;            
+            errorMessages[key] = error.errors[key].message;
         }
 
         return {error: errorMessages};

@@ -26,8 +26,7 @@ export default function(config) {
     //Quando o processo do Node for parado, fechar a conexão com o Mongoose
     process.on('SIGINT', function() {
         mongoose.connection.close(function () {
-            console.log('Aplicação encerrada...');
-            //console.log('Conexão com Mongoose encerrada pela aplicação');
+            console.log('Aplicação encerrada...');            
             process.exit(1);
         });
     });

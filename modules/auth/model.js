@@ -19,11 +19,11 @@ export default {
             return getToken(user, callback);
         });
     }
-}
+};
 
 function validate(data) {
     if ( ! data.hasOwnProperty('email') || ! data.hasOwnProperty('password')) {
-         return false
+         return false;
     }
 
     return true;

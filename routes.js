@@ -19,7 +19,7 @@ export default () => {
 
     router.use(authRoutes());
     router.use(userRoutes(auth));
-    router.use(memberRoutes(auth));    
+    router.use(memberRoutes(auth));
 
     return router;
 };
