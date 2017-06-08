@@ -31,5 +31,13 @@ module.exports = merge(baseWebpackConfig, {
       inject: true
     }),
     new FriendlyErrorsPlugin()
+    // ,
+    // new webpack.ProvidePlugin({
+    //   $: 'jquery',
+    //   jquery: 'jquery',
+    //   jQuery: 'jquery',
+    //   'window.$': 'jquery',
+    //   'window.jQuery': 'jquery'
+    // })
   ]
 })
