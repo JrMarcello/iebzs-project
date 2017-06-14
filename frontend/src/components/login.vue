@@ -15,29 +15,29 @@
           <form class="col s12">
             <div class="row">
               <div class="input-field col s12">
-                <input id="email" type="email" class="validate" v-model="input.email" required>
+                <input id="email" type="email" class="validate" v-model="credentials.email" required>
                 <label for="email">Email</label>
               </div>
             </div>            
             <div class="row">
               <div class="input-field col s12">
-                <input id="pass" type="password" class="validate" v-model="input.password" required>
+                <input id="pass" type="password" class="validate" v-model="credentials.password" required>
                 <label for="pass">Password</label>
               </div>
             </div>
-            <!--<div>
+            <div>
               <div class="col s12">
                 <p>
-                  <input type="checkbox" id="remember">
+                  <input type="checkbox" id="remember" v-model="credentials.remember">
                   <label for="remember">Lembra-me</label>
                 </p>
               </div>
             </div>
-            <div class="divider"></div>-->
+            <div class="divider"></div>
             <div class="row">
               <div class="col m12">
                 <p class="right-align">
-                  <button class="btn btn-large waves-effect waves-light" type="button" name="action" @click="login(input)">Login</button>
+                  <button class="btn btn-large waves-effect waves-light" type="button" name="action" @click="login()">Login</button>
                 </p>
               </div>
             </div>
@@ -47,7 +47,7 @@
     </div>
     <div class="col s12">
       <transition name="output-panel" enter-active-class="animated flipInX" leave-active-class="animated flipOutX">
-        <div v-if="displayError" id="error">
+        <div v-if="error" id="error">
           <span class="red-text ">Email ou password inválido!</span>
         </div>
       </transition>
@@ -61,24 +61,45 @@ export default {
   data () {
     return {
       msg: 'Pagina de login',
-      input: {},
-      displayError: false
+      credentials: {
+        email: '',
+        password: '',
+        remember: false
+      },
+      error: ''
     }
   },
   methods: {
-    login (input) {
-      console.log('email: ' + input.email)
-      console.log('pass: ' + input.password)
-      const checkLogin = true
-      if (checkLogin) {
-        window.location = '/dashboard'
-        return
-      }
+    login () {
+      console.log(this.credentials)
+      this.$auth.login({
+        body: this.credentials,
+        success: function () {
+          console.log('Usuário logado com sucesso.')
+          console.log(this.$auth.token())
+          console.log(this.$auth.user())
+        },
+        error: function () {
+          console.log('Deu ruim')
+        },
+        rememberMe: this.credentials.remember,
+        redirect: '/dashboard',
+        fetchUser: false
+      })
 
-      this.showError()
+      // this.$http.post('http://localhost:8000/api/auth')
+      //   .then(response => {
+      //     console.log(response.token)
+      //     localStorage.setItem('token', response.token)
+      //     this.$router.replace('/dashboard')
+      //   }).catch(err => {
+      //     console.log(err.body)
+      //     this.error = err.body
+      //   })
     },
-    showError () {
-      this.displayError = true
+    logout () {
+      localStorage.removeItem('token')
+      // this.user.authenticated = false
     }
   }
 }
