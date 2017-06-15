@@ -48,7 +48,7 @@
     <div class="col s12">
       <transition name="output-panel" enter-active-class="animated flipInX" leave-active-class="animated flipOutX">
         <div v-if="error" id="error">
-          <span class="red-text ">Email ou password inválido!</span>
+          <span class="red-text ">{{error}}</span>
         </div>
       </transition>
     </div>
@@ -71,16 +71,17 @@ export default {
   },
   methods: {
     login () {
-      console.log(this.credentials)
       this.$auth.login({
         body: this.credentials,
-        success: function () {
+        success: function (res) {
           console.log('Usuário logado com sucesso.')
           console.log(this.$auth.token())
           console.log(this.$auth.user())
         },
-        error: function () {
-          console.log('Deu ruim')
+        error: function (err) {
+          // console.log('Deu ruim')
+          // console.log(err.body.error)
+          this.error = err.body.error
         },
         rememberMe: this.credentials.remember,
         redirect: '/dashboard',
