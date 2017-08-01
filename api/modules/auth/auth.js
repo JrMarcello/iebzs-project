@@ -16,9 +16,9 @@ let params = {
 
 passport.use(new passportJWT.Strategy(params, (payload, done) => {
     User.findOne({ _id: payload.id }, (err, user) => {
-        if (err) { return done(err) }
+        if (err) return done(err);
 
-        if ( ! user) { return done(null, false) }
+        if ( ! user) return done(null, false);
 
         return done(null, user);
     });
