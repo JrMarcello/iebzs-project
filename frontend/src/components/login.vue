@@ -2,7 +2,6 @@
   <div class="container">
     <div class="row">
       <div class="col m6">
-        
         <!--<h2>Heading 2</h2>
         <p>
           Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem
@@ -67,21 +66,24 @@ export default {
         password: '',
         remember: false
       },
+      $auth: {},
       error: ''
     }
   },
   methods: {
     login () {
       this.$auth.login({
+        params: {},
         body: this.credentials,
         success: function (res) {
           console.log('Usuário logado com sucesso.')
           console.log(this.$auth.token())
           console.log(this.$auth.user())
+          console.log(res)
         },
         error: function (err) {
           console.log('Deu ruim')
-          console.log(err.body.error)
+          console.log(err)
           this.error = err.body.error
         }// ,
         // rememberMe: this.credentials.remember,

@@ -1,33 +1,31 @@
-'use strict'
-
 import mongoose from 'mongoose';
 
-export default function(config) {
-    mongoose.Promise = global.Promise;
+export default (config) => {
+  mongoose.Promise = global.Promise;
 
-    mongoose.connect(config.DB_HOST + config.DB_NAME);
-    
-    mongoose.connection.on('connected', function () {
-        console.log('Mongoose conectado em: ' + config.DB_HOST + config.DB_NAME);
-    });
-    
-    mongoose.connection.on('error', function (err) {
-        console.log('Erro na conexão Mongoose: ' + err);
-    });
+  mongoose.connect(config.DB_HOST + config.DB_NAME);
 
-    mongoose.connection.on('disconnected', function () {
-        console.log('Mongoose foi desconectado');
-    });
+  mongoose.connection.on('connected', () => {
+    console.log('Mongoose conectado em: ' + config.DB_HOST + config.DB_NAME);
+  });
 
-    mongoose.connection.on('open', function () {
-        console.log('Nova conexão aberta');
-    });
+  mongoose.connection.on('error', (err) => {
+    console.log('Erro na conexão Mongoose: ' + err);
+  });
 
-    //Quando o processo do Node for parado, fechar a conexão com o Mongoose
-    process.on('SIGINT', function() {
-        mongoose.connection.close(function () {
-            console.log('Aplicação encerrada...');            
-            process.exit(1);
-        });
+  mongoose.connection.on('disconnected', () => {
+    console.log('Mongoose foi desconectado');
+  });
+
+  mongoose.connection.on('open', () => {
+    console.log('Nova conexão aberta');
+  });
+
+  // Quando o processo do Node for parado, fechar a conexão com o Mongoose
+  process.on('SIGINT', () => {
+    mongoose.connection.close(() => {
+      console.log('Aplicação encerrada...');
+      process.exit(1);
     });
-}
+  });
+};

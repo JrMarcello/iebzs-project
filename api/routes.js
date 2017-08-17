@@ -1,10 +1,10 @@
-import express  from 'express';
-import path     from 'path';
+import express from 'express';
+import path from 'path';
 
-import * as auth    from './modules/auth/auth';
-import authRoutes   from './modules/auth/routes';
-import userRoutes   from './modules/user/routes';
-import memberRoutes from './modules/member/routes';
+import * as auth from './src/modules/auth/auth';
+import authRoutes from './src/modules/auth/routes';
+import userRoutes from './src/modules/user/routes';
+import memberRoutes from './src/modules/member/routes';
 
 export default () => {
     let router = express.Router();

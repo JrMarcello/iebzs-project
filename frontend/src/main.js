@@ -1,9 +1,8 @@
 import Vue from 'vue'
-import App from './App'
 import router from './router'
+import App from './App'
 
 Vue.config.productionTip = false
-// Vue.http.options.root = 'http://localhost:8000/api'
 
 /* eslint-disable no-new */
 new Vue({

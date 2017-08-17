@@ -1,11 +1,9 @@
-'use strict';
-
-import express    from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
-import morgan     from 'morgan';
+import morgan from 'morgan';
 
 import configs from './config/configs';
-import db      from './db/mongo';
+import mongodb from './db/mongo';
 import routers from './routes';
 
 const app = express();
@@ -20,7 +18,7 @@ run();
 function configureCORS() {
     app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT, OPTIONS');
         res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
         next();
     });
@@ -40,7 +38,7 @@ function setRoutes() {
 }
 
 function connectBD() {
-    db(configs.db);
+    mongodb(configs.db);
 };
 
 function run() {
