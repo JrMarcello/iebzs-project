@@ -7,19 +7,19 @@ import userRoutes from './src/modules/user/routes';
 import memberRoutes from './src/modules/member/routes';
 
 export default () => {
-    let router = express.Router();
+  const router = express.Router();
 
-    router.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname + '/index.html'))
-    });
+  router.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/index.html'));
+  });
 
-    router.get('/api', (req, res) => {
-        res.sendFile(path.join(__dirname + '/index.html'))
-    });
+  router.get('/api', (req, res) => {
+    res.sendFile(path.join(__dirname + '/index.html'));
+  });
 
-    router.use(authRoutes());
-    router.use(userRoutes(auth));
-    router.use(memberRoutes(auth));
+  router.use(authRoutes());
+  router.use(userRoutes(auth));
+  router.use(memberRoutes(auth));
 
-    return router;
+  return router;
 };

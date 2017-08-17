@@ -19,7 +19,7 @@ export default {
     PORT: process.env.PORT || 8000
   },
   api: {
-    API_BASE_PATH: process.env.API_BASE_PATH || '/api'
+    API_BASE_PATH: process.env.API_BASE_PATH || '/api/v1'
   },
   auth: {
     jwtSecret: process.env.SECRET_KEY || '#$3cR3t@p1K3y_&',
