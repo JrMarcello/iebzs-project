@@ -1,0 +1,17 @@
+{
+  "plugins": ["mongo", "mocha"],
+  "extends": "airbnb-base",
+  "rules": {
+    "no-underscore-dangle": 0,
+    "max-len": [1, 120, 2, { "ignoreComments": true }],
+    "quote-props": [1, "consistent-as-needed"],
+    "no-cond-assign": [2, "except-parens"],
+    "no-use-before-define": 0,
+    "consistent-return": 0,
+    "no-param-reassign": 0,
+    "valid-jsdoc": 1,
+    "prefer-default-export": 0,
+    "prefer-template": 0,
+    "comma-dangle": 0
+  }
+}
