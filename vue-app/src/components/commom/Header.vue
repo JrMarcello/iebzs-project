@@ -1,12 +1,16 @@
 <template>
   <header id="header">
-    <div class="phone-viewport">
-      <md-toolbar v-if="this.$auth.isAuthenticated()">
+    <div v-if="isAuthenticated" class="phone-viewport">
+      <md-toolbar>
         <md-button id="menu" class="md-icon-button" @click="toggleLeftSidenav">
           <md-icon>menu</md-icon>
         </md-button>
 
-        <h2 class="md-title" style="flex: 1">IEBZS | {{ pageTitle }}</h2>
+        <h2 class="md-title" style="flex: 1">{{ pageTitle }}</h2>
+
+        <div class="header-logo" style="flex: 5">
+          <router-link to="/"><img class="header-logo__img" src="/static/images/logo-white.png"/></router-link>
+        </div>
 
         <md-button id="btn-search" class="md-icon-button">
           <md-icon>search</md-icon>
@@ -15,39 +19,35 @@
         <md-button id="btn-notifications" class="md-icon-button">
           <md-icon>notifications</md-icon>
         </md-button>
-        
+
         <md-menu md-align-trigger md-direction="bottom left">
-          <md-button id="btn-logged" md-menu-trigger>logged as (Marcello Jr) <md-icon>arrow_drop_down</md-icon></md-button>
+          <md-button id="btn-logged" md-menu-trigger>{{(userLogged) ? userLogged.name.first : ''}}<md-icon>arrow_drop_down</md-icon></md-button>
 
           <md-menu-content>
             <md-list>
               <md-list-item @click="logout()">
                 <md-icon>exit_to_app</md-icon>
-                <span>Logout</span>
+                <span>Sair</span>
               </md-list-item>
             </md-list>
           </md-menu-content>
         </md-menu>
       </md-toolbar>
-      <md-toolbar v-else>
-        <h2 class="md-title" style="flex: 1">IEBZS | {{ pageTitle }}</h2>
-      </md-toolbar>
-
 
       <md-sidenav class="md-left" ref="leftSidenav">
         <md-toolbar class="sidenav-header md-large">
           <div class="md-toolbar-container">
             <md-avatar class="md-large">
-              <img src="https://placeimg.com/40/40/nature/1" alt="User name">
+              <img :src="(userLogged && userLogged.avatar) ? userLogged.avatar : './static/images/avatar.jpg'" alt="img">
             </md-avatar>
             <h3 class="md-title">
-              <span>João Silva</span>
+              <span>{{(userLogged) ? userLogged.name.first : ''}}</span>
               <md-menu md-align-trigger>
-                <span md-menu-trigger>joaosilva@example.com <md-icon>arrow_drop_down</md-icon></span>
+                <span md-menu-trigger>{{(userLogged) ? userLogged.email : ''}}<md-icon>arrow_drop_down</md-icon></span>
 
                 <md-menu-content>
-                  <md-menu-item disabled>Edit my account</md-menu-item>
-                  <md-menu-item @click="logout()">Logout</md-menu-item>
+                  <md-menu-item disabled>Editar conta</md-menu-item>
+                  <md-menu-item @click="logout()">Sair</md-menu-item>
                 </md-menu-content>
               </md-menu>
             </h3>
@@ -59,31 +59,39 @@
             <md-icon>dashboard</md-icon>
             <span><router-link to="/">Dashboard</router-link></span>
           </md-list-item>
-
-          <md-list-item id="menu-products">
-            <md-icon>shopping_cart</md-icon>
-            <span><a href="#!">Usuários</a></span>
-            <md-list-expand>
-              <md-list>
-                <md-list-item id="menu-users-all-users" class="md-inset"><router-link to="/user">Listar</router-link></md-list-item>
-                <md-list-item id="menu-users-add-new" class="md-inset"><router-link to="/user/add">Novo</router-link></md-list-item>                
-              </md-list>
-            </md-list-expand>
-          </md-list-item>
-
-          <md-list-item id="menu-suppliers">
-            <md-icon>local_shipping</md-icon>
+          <md-list-item id="menu-members">
+            <md-icon>people</md-icon>
             <span><a href="#!">Membros</a></span>
             <md-list-expand>
               <md-list>
-                <md-list-item id="menu-members-all-members" class="md-inset"><router-link to="/members">Listar</router-link></md-list-item>
-                <md-list-item id="menu-members-add-new" class="md-inset"><router-link to="/members/add">Novo</router-link></md-list-item>
+                <md-list-item id="menu-members-all-members" class="md-inset"><router-link to="/membros">Listar</router-link></md-list-item>
+                <md-list-item id="menu-members-add-new" class="md-inset"><router-link to="/membro/add">Novo</router-link></md-list-item>
               </md-list>
             </md-list-expand>
           </md-list-item>
-        </md-list>  
+          <md-list-item id="menu-users">
+            <md-icon>people</md-icon>
+            <span><a href="#!">Usuários</a></span>
+            <md-list-expand>
+              <md-list>
+                <md-list-item id="menu-users-all-users" class="md-inset"><router-link to="/usuarios">Listar</router-link></md-list-item>
+                <md-list-item id="menu-users-add-new" class="md-inset"><router-link to="/usuario/add">Novo</router-link></md-list-item>
+              </md-list>
+            </md-list-expand>
+          </md-list-item>
+        </md-list>
       </md-sidenav>
-    </div>
+      <md-button class="md-fab md-primary" @click.prevent="$router.go(-1)">
+        <md-icon>arrow_back</md-icon>
+      </md-button>
+    </div>    
+    <div v-else class="phone-viewport">
+      <md-toolbar>
+          <div class="header-logo" style="flex: 1">
+            <img class="header-logo__img" src="/static/images/logo-white.png"/>
+          </div>
+      </md-toolbar>    
+    </div>  
   </header>
 </template>
 
@@ -103,16 +111,27 @@ export default {
       this.pageTitle = text;
     },
     logout() {
-      this.$auth.logout();
+      this.$store.dispatch('auth/logout');
       this.$router.push('/login');
     },
   },
   mounted() {
     this.updatePageTitle(this.$router.currentRoute.name);
   },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters['auth/isAuthenticated'];
+    },
+    userLogged() {
+      return this.$store.getters['auth/loggedUser'];
+    },
+  },
   watch: {
     $route(to) {
-      this.$refs.leftSidenav.close();
+      if (this.$refs.leftSidenav) {
+        this.$refs.leftSidenav.close();
+      }
+
       this.updatePageTitle(to.name);
     },
   },
@@ -122,6 +141,14 @@ export default {
 <style scoped lang="scss">
   #header {
     margin-bottom: 40px;
+
+    .header-logo {
+      text-align: center;
+    }
+
+    .header-logo__img {
+      width: 90px;
+    }
 
     .sidenav-header {
       display: flex;

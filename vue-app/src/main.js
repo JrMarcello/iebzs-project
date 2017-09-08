@@ -5,13 +5,16 @@ import Vue from 'vue';
 import VueMaterial from 'vue-material';
 import VueResource from 'vue-resource';
 import VueMask from 'v-mask';
+
 import 'normalize.css';
 import 'vue-material/dist/vue-material.css';
 import '../static/material-icons/material-icons.css';
+
 import App from './App';
 import router from './router';
+import store from './vuex/';
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = process.env.NODE_ENV === 'production';
 Vue.use(VueMaterial);
 
 Vue.use(VueResource);
@@ -21,6 +24,7 @@ Vue.use(VueMask);
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App },
 });

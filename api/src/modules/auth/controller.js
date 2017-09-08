@@ -1,4 +1,4 @@
-import { errorHandler } from '../common/utils';
+import { errorHandler } from '../../common/utils';
 import model from './model';
 
 export default {
