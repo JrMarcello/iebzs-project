@@ -2,8 +2,8 @@ import actions from '../action/actions';
 
 const roles = {
   ADMIN: {
-    name: 'ADMIN',
-    description: 'Administrador do Sistema',
+    name: 'ADMINISTRADOR',
+    description: 'Administrador do Sistema com todos os provilégios',
     actions: [
       actions.user,
       actions.role,
@@ -12,14 +12,14 @@ const roles = {
   },
   PADRAO: {
     name: 'PADRAO',
-    description: 'Usuário comum',
+    description: 'Usuário padrão com privilégios moderados',
     actions: [
       actions.member,
     ],
   },
   VISITANTE: {
     name: 'VISITANTE',
-    description: 'Visitante',
+    description: 'Visitante sem privilégios',
     actions: [{
       MEMBER_READ: actions.member.MEMBER_READ,
     }],

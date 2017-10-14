@@ -6,7 +6,7 @@ const actions = {
   getAll({ commit, state }) {
     UserService.getAll().then((response) => {
       commit(types.GET_ALL_USERS, {
-        users: response.body.data,
+        users: response.body,
       });
     });
   },
@@ -32,7 +32,7 @@ const actions = {
           resolve(response.body);
       })
         .catch((err) => {
-          reject(err.body);
+          reject(err);
         });
     });
   },

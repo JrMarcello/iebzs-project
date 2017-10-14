@@ -8,7 +8,7 @@ const actions = {
       MembersService.getAll()
         .then((response) => {
           commit(types.GET_ALL_MEMBERS, {
-            members: response.body.data,
+            members: response.body,
           });
           resolve();
         })
@@ -43,9 +43,9 @@ const actions = {
         });
     });
   },
-  delete({ commit, state }, memberId) {
+  delete({ commit, state }, id) {
     return new Promise((resolve, reject) => {
-      MembersService.delete(memberId)
+      MembersService.delete(id)
         .then((response) => {
           resolve(response.body);
         })

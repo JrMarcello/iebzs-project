@@ -10,7 +10,6 @@ Vue.use(VueResource);
 const vueAuth = new VueAuthenticate(Vue.http, {
   baseUrl: 'http://localhost:8000/api/v1',
   loginUrl: '/auth',
-  tokenType: 'JWT',
 });
 
 const actions = {

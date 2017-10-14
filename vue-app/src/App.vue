@@ -11,6 +11,11 @@ import AppHeader from '@/components/commom/Header';
 export default {
   name: 'app',
   components: { AppHeader },
+  created() {
+    if (this.$router.currentRoute.name !== 'login') {
+      this.$store.dispatch('auth/setLoggedUser');
+    }
+  },
 };
 </script>
 

@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import auth from './components/auth';
 import members from './components/members';
 import users from './components/users';
+import roles from './components/roles';
 
 Vue.use(Vuex);
 
@@ -12,5 +13,6 @@ export default new Vuex.Store({
     auth,
     members,
     users,
+    roles,
   },
 });

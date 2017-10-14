@@ -17,7 +17,9 @@ import UserDetail from '@/components/users/UserDetail';
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
-const vueAuth = new VueAuthenticate(Vue.http);
+const vueAuth = new VueAuthenticate(Vue.http, {
+  tokenType: 'JWT',
+});
 
 const router = new VueRouter({
   mode: 'history',
@@ -86,15 +88,6 @@ const router = new VueRouter({
       redirect: '/',
     },
   ],
-});
-
-Vue.http.interceptors.push((request, next) => {
-  if (vueAuth.isAuthenticated()) {
-    request.headers.set('Authorization', `JWT ${vueAuth.getToken()}`);
-    request.headers.set('Accept', 'application/json');
-  }
-
-  next();
 });
 
 router.beforeEach((to, from, next) => {

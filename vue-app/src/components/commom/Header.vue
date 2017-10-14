@@ -70,7 +70,7 @@
             </md-list-expand>
           </md-list-item>
           <md-list-item id="menu-users">
-            <md-icon>people</md-icon>
+            <md-icon>person</md-icon>
             <span><a href="#!">Usuários</a></span>
             <md-list-expand>
               <md-list>

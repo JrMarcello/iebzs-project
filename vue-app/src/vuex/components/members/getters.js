@@ -2,10 +2,10 @@
 
 const getters = {
   members: (state) => {
-    return state.products;
+    return state.members;
   },
   member: (state) => {
-    return state.product;
+    return state.member;
   },
 };
 

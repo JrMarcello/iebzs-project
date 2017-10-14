@@ -69,7 +69,7 @@ function _createAdminUser() {
       }
 
       if (!user) {
-        Role.get({ name: 'ADMIN' }, (errRole, adminRole) => {
+        Role.get({ name: 'ADMINISTRADOR' }, (errRole, adminRole) => {
           if (errRole) {
             reject(errRole);
             return;
@@ -83,11 +83,11 @@ function _createAdminUser() {
           const admin = {
             name: {
               first: 'Administrador',
-              last: null,
+              last: '',
             },
             email: 'admin@admin.com',
             password: '1a2b3c',
-            avatar: null,
+            avatar: '',
             role_id: adminRole._id,
           };
 

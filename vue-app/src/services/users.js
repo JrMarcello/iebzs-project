@@ -1,9 +1,7 @@
 /* eslint-disable */
 import service from './index';
 
-const API_URL = process.env.API_URL;
-const BASE_PATH = `${API_URL}/user`;
-
+const BASE_PATH = `${process.env.API_URL}/user`;
 const resource = service.resource(`${BASE_PATH}{/id}`);
 
 export default {

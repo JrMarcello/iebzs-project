@@ -9,7 +9,7 @@
         <form id="form-search" novalidate @submit.prevent="">
           <md-input-container>
             <md-icon>search</md-icon>
-            <label>Type user email</label>
+            <label>Digite um email</label>
             <md-input id="user-input-search" type="search" v-model="userSearchFilter"></md-input>
           </md-input-container>
         </form>
@@ -25,7 +25,7 @@
               <md-layout md-flex="90">
 
                 <md-avatar>
-                  <img src="https://placeimg.com/40/40/people/1" alt="People">
+                  <img src="/static/images/avatar.jpg" alt="img">
                 </md-avatar>
 
                 <div class="md-list-text-container">
@@ -65,13 +65,12 @@
           <md-layout md-align="center" md-gutter>
             <md-layout md-flex="90">
               <div class="md-list-text-container">
-                <span>Not found.</span>
+                <span>Nenhum Usuário encontrado</span>
               </div>
             </md-layout>
           </md-layout>
         </md-list-item>
       </md-list>
-      
     </div>
 
     <md-button class="md-fab md-fab-bottom-right md-primary">
@@ -91,10 +90,10 @@ export default {
       userSearchFilter: '',
       userIdRemove: '',
       confirm: {
-        title: 'Delete the selected user?',
+        title: 'Você realmente deseja deletar o usuário selecionado?',
         contentHtml: ' ',
-        delete: 'Delete',
-        cancel: 'Cancel',
+        delete: 'Deletar',
+        cancel: 'Cancelar',
       },
       message: {
         text: '',

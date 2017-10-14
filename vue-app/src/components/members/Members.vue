@@ -1,5 +1,5 @@
 <template>
-  <div class="users">
+  <div class="members">
     <md-snackbar id="message" :md-position="message.vertical + ' ' + message.horizontal" ref="snackbar" :md-duration="message.duration">
       <span>{{ message.text }}</span>
     </md-snackbar>
@@ -9,36 +9,35 @@
         <form id="form-search" novalidate @submit.prevent="">
           <md-input-container>
             <md-icon>search</md-icon>
-            <label>Type user email</label>
-            <md-input id="user-input-search" type="search" v-model="userSearchFilter"></md-input>
+            <label>Digite um email</label>
+            <md-input id="member-input-search" type="search" v-model="memberSearchFilter"></md-input>
           </md-input-container>
         </form>
       </md-layout>
     </md-layout>
 
     <div class="phone-viewport">
-
-      <md-list v-if="filteredUsers.length > 0" class="custom-list md-triple-line">
-        <md-list-item :id="'user-listitem-' + index" v-for="(user, index) in filteredUsers" :key="user._id">
-          <router-link :to="'/user/detail/' + user._id">
+      <md-list v-if="filteredMembers.length > 0" class="custom-list md-triple-line">
+        <md-list-item :id="'member-listitem-' + index" v-for="(member, index) in filteredMembers" :key="member._id">
+          <router-link :to="'/member/detail/' + member._id">
             <md-layout md-align="center" md-gutter>
               <md-layout md-flex="90">
 
                 <md-avatar>
-                  <img src="https://placeimg.com/40/40/people/1" alt="People">
+                  <img src="/static/images/avatar.jpg" alt="img">
                 </md-avatar>
 
                 <div class="md-list-text-container">
-                  <span>{{user.name.first + ' ' + user.name.last}}</span>
-                  <span>{{user.email}}</span>
+                  <span>{{member.name.first + ' ' + member.name.last}}</span>
+                  <span>{{member.email}}</span>
                 </div>
-                <md-button :id="'user-edit-' + index" class="md-icon-button md-raised">
-                  <router-link :to="'/user/edit/' + user._id">
+                <md-button :id="'member-edit-' + index" class="md-icon-button md-raised">
+                  <router-link :to="'/member/edit/' + member._id">
                     <md-icon class="md-primary">edit</md-icon>
                   </router-link>
                 </md-button>
 
-                <md-button :id="'user-delete-' + index" class="md-icon-button md-raised" @click.prevent="openDialog('delete' + user._id)">
+                <md-button :id="'member-delete-' + index" class="md-icon-button md-raised" @click.prevent="openDialog('delete' + member._id)">
                   <md-icon class="md-primary">delete</md-icon>
                 </md-button>
 
@@ -48,9 +47,9 @@
                   :md-content-html="confirm.contentHtml"
                   :md-ok-text="confirm.delete"
                   :md-cancel-text="confirm.cancel"
-                  @open="onOpen(user)"
+                  @open="onOpen(member)"
                   @close="onClose"
-                  :ref="'delete' + user._id">
+                  :ref="'delete' + member._id">
                 </md-dialog-confirm>
 
               </md-layout>
@@ -61,11 +60,11 @@
       </md-list>
 
       <md-list v-else class="custom-list">
-        <md-list-item id="user-listitem-not-found">
+        <md-list-item id="member-listitem-not-found">
           <md-layout md-align="center" md-gutter>
             <md-layout md-flex="90">
               <div class="md-list-text-container">
-                <span>Not found.</span>
+                <span>Nehum membro encontrado</span>
               </div>
             </md-layout>
           </md-layout>
@@ -75,7 +74,7 @@
     </div>
 
     <md-button class="md-fab md-fab-bottom-right md-primary">
-      <router-link to="/user/add">
+      <router-link to="/member/add">
         <md-icon>add</md-icon>
       </router-link>
     </md-button>
@@ -85,16 +84,16 @@
 <script>
 /* eslint no-underscore-dangle:0 */
 export default {
-  name: 'users',
+  name: 'members',
   data() {
     return {
-      userSearchFilter: '',
-      userIdRemove: '',
+      memberSearchFilter: '',
+      memberIdRemove: '',
       confirm: {
-        title: 'Delete the selected user?',
+        title: 'Você realmente quer deletar o Membro selecionado?',
         contentHtml: ' ',
-        delete: 'Delete',
-        cancel: 'Cancel',
+        delete: 'Deletar',
+        cancel: 'Cancelar',
       },
       message: {
         text: '',
@@ -105,22 +104,22 @@ export default {
     };
   },
   computed: {
-    users() {
-      return this.$store.getters['users/users'];
+    members() {
+      return this.$store.getters['members/members'];
     },
-    filteredUsers() {
-      return this.users.filter((item) => {
-        if (this.userSearchFilter === '') {
+    filteredMembers() {
+      return this.members.filter((item) => {
+        if (this.memberSearchFilter === '') {
           return true;
         }
-        return item.email.indexOf(this.userSearchFilter) > -1;
+        return item.email.indexOf(this.memberSearchFilter) > -1;
         // @TODO: do this with 'string match' (regex), because case sensitive
       });
     },
   },
   methods: {
-    listAllUsers() {
-      this.$store.dispatch('users/getAll');
+    listAllMembers() {
+      this.$store.dispatch('members/getAll');
     },
     showMessage(text, vertical, horizontal, duration) {
       this.message.text = text;
@@ -136,19 +135,19 @@ export default {
     closeDelete(ref) {
       this.$refs[ref].close();
     },
-    onOpen(user) {
-      this.confirm.contentHtml = `${user.name.first} ${user.name.last} &lt;${user.email}&gt;`;
-      this.userIdRemove = user._id;
+    onOpen(member) {
+      this.confirm.contentHtml = `${member.name.first} ${member.name.last} &lt;${member.email}&gt;`;
+      this.memberIdRemove = member._id;
     },
     onClose(type) {
       if (type === 'ok') {
-        this.deleteUser(this.userIdRemove);
+        this.deleteMember(this.memberIdRemove);
       }
     },
-    deleteUser(userId) {
-      this.$store.dispatch('users/delete', userId)
+    deleteMember(id) {
+      this.$store.dispatch('members/delete', id)
       .then((response) => {
-        this.listAllUsers();
+        this.listAllMembers();
         this.showMessage(response.message, 'top', 'center', 4000);
       })
       .catch((err) => {
@@ -157,15 +156,13 @@ export default {
     },
   },
   mounted() {
-    this.listAllUsers();
+    this.listAllMembers();
   },
 };
-
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.users {
+.members {
 
   #form-search {
     width: 100%;
